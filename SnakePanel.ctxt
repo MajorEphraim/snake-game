@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=SnakePanel
+comment1.params=
+comment1.target=SnakePanel()
+comment10.params=g
+comment10.target=void\ paintComponent(java.awt.Graphics)
+comment11.params=e
+comment11.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment2.params=
+comment2.target=void\ initializeGame()
+comment3.params=
+comment3.target=void\ displayFood()
+comment4.params=
+comment4.target=void\ moveSnake()
+comment5.params=
+comment5.target=void\ checkMovements()
+comment6.params=g
+comment6.target=void\ drawFood(java.awt.Graphics)
+comment7.params=g
+comment7.target=void\ drawScore(java.awt.Graphics)
+comment8.params=g
+comment8.target=void\ drawGameOver(java.awt.Graphics)
+comment9.params=g
+comment9.target=void\ drawSnake(java.awt.Graphics)
+numComments=12
