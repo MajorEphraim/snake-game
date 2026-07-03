@@ -6,10 +6,8 @@ import java.awt.Color;
 import java.util.Random;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.awt.Font;
 import java.awt.FontMetrics;
 
@@ -30,7 +28,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     int foodY;
     int snakeX = GAME_WIDTH/2;
     int snakeY = GAME_HEIGHT/2;
-    int changeX = 0;
+    int changeX = UNIT_SIZE;
     int changeY = 0;
     
     int snakeSize = 1;
@@ -63,33 +61,58 @@ public class SnakePanel extends JPanel implements ActionListener {
         snakeY = GAME_HEIGHT/2;
         xValues.clear();
         yValues.clear();
+        xValues.add(snakeX);
+        yValues.add(snakeY);
         snakeSize = 1;
         displayFood();
+        
+        if(timer != null)
+        {
+            timer.stop();
+        }
+        
         timer = new Timer(SNAKE_SPEED, this);
         timer.start();
     }
     
     void displayFood()
     {
-        foodX = random.nextInt(GAME_WIDTH/UNIT_SIZE)*UNIT_SIZE+UNIT_SIZE;
-        foodY = random.nextInt(GAME_HEIGHT/UNIT_SIZE)*UNIT_SIZE+UNIT_SIZE;
+        boolean valid;
+    
+        do
+        {
+            valid = true;
+    
+            foodX = random.nextInt(GAME_WIDTH / UNIT_SIZE) * UNIT_SIZE;
+            foodY = random.nextInt(GAME_HEIGHT / UNIT_SIZE) * UNIT_SIZE;
+    
+            for(int i = 0; i < xValues.size(); i++)
+            {
+                if(foodX == xValues.get(i) &&
+                   foodY == yValues.get(i))
+                {
+                    valid = false;
+                    break;
+                }
+            }
+    
+        } while(!valid);
     }
     
     void moveSnake()
     {
-        snakeX += changeX; 
-        snakeY += changeY; 
-          
+        snakeX += changeX;
+        snakeY += changeY;
+        
         xValues.add(snakeX);
         yValues.add(snakeY);
         
-        if(snakeSize < xValues.size())
+        while(xValues.size() > snakeSize)
         {
             xValues.remove(0);
             yValues.remove(0);
         }
     }
-    
     
     void checkMovements(){
         if(snakeX == foodX && snakeY == foodY)
@@ -99,22 +122,21 @@ public class SnakePanel extends JPanel implements ActionListener {
         }
         
         //collisions with sides
-        if(snakeX < UNIT_SIZE || snakeX > GAME_WIDTH)
+        if (snakeX < 0 || snakeX >= GAME_WIDTH)
             isOver = true;
             
         //top or bottom collisions
-        if(snakeY < UNIT_SIZE || snakeY > GAME_HEIGHT)
+        if (snakeY < 0 || snakeY >= GAME_HEIGHT)
             isOver = true;
         
         //snake colliding with itself
-        for(int i =0; i<xValues.size(); i++)
+       for(int i = 0; i < xValues.size() - 1; i++)
         {
-            if(i != xValues.size()-1)
+            if(snakeX == xValues.get(i) &&
+               snakeY == yValues.get(i))
             {
-                if(snakeX == xValues.get(i) && snakeY == yValues.get(i))
-                {
-                   isOver = true; 
-                }
+                isOver = true;
+                break;
             }
         }
         
@@ -167,14 +189,14 @@ public class SnakePanel extends JPanel implements ActionListener {
     {
         super.paintComponent(g);
         
-        if(!isOver){
-         drawFood(g);
-         drawSnake(g);
-         drawScore(g);
-        }else{
-         drawGameOver(g); 
+        drawFood(g);
+        drawSnake(g);
+        drawScore(g);
+        
+        if(isOver)
+        {
+            drawGameOver(g);
         }
-      
     }
     
     @Override
@@ -200,27 +222,26 @@ public class SnakePanel extends JPanel implements ActionListener {
             if(keyCode == KeyEvent.VK_C)
                 initializeGame();
             
-            if(keyCode == KeyEvent.VK_UP)
+            if(keyCode == KeyEvent.VK_UP && changeY != UNIT_SIZE)
             {
                 changeY = -UNIT_SIZE;
                 changeX = 0;
-            }  
-            else if(keyCode == KeyEvent.VK_DOWN)
+            }
+            else if(keyCode == KeyEvent.VK_DOWN && changeY != -UNIT_SIZE)
             {
                 changeY = UNIT_SIZE;
                 changeX = 0;
             }
-            else if(keyCode == KeyEvent.VK_LEFT)
+            else if(keyCode == KeyEvent.VK_LEFT && changeX != UNIT_SIZE)
             {
                 changeX = -UNIT_SIZE;
                 changeY = 0;
             }
-            else if(keyCode == KeyEvent.VK_RIGHT)
+            else if(keyCode == KeyEvent.VK_RIGHT && changeX != -UNIT_SIZE)
             {
                 changeX = UNIT_SIZE;
                 changeY = 0;
             }
        }
     }
-
 }
