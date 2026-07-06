@@ -35,6 +35,10 @@ public class SnakePanel extends JPanel implements ActionListener {
     int gridY = (GAME_HEIGHT - GRID_HEIGHT) / 2;
     
     private Image background;
+    private Image snake_body;
+    private Image food;
+    private Image snake_head;
+    private Image snake_tail;
     
     Color backgroundColor = new Color(0, 0, 204);  
     Color snakeColor = new Color(0, 0, 0);  
@@ -74,6 +78,19 @@ public class SnakePanel extends JPanel implements ActionListener {
         this.addKeyListener(new SnakeKeyAdapter());
         background = new ImageIcon(getClass().getResource("/assets/background.png"))
         .getImage();
+        
+        snake_body = new ImageIcon(getClass().getResource("/assets/snake_body.png"))
+        .getImage();
+        
+        food = new ImageIcon(getClass().getResource("/assets/food.png"))
+        .getImage();
+        
+        snake_head = new ImageIcon(getClass().getResource("/assets/snake_head.png"))
+        .getImage();
+        
+        snake_tail = new ImageIcon(getClass().getResource("/assets/snake_tail.png"))
+        .getImage();
+        
         initializeGame();
     }
 
@@ -175,10 +192,7 @@ public class SnakePanel extends JPanel implements ActionListener {
 
      void drawFood(Graphics g)
     {
-       
-        g.setColor(foodColor);
-        g.fillRect(foodX, foodY, UNIT_SIZE, UNIT_SIZE);
-        
+        g.drawImage(food, foodX, foodY, UNIT_SIZE, UNIT_SIZE, this);        
     }
     
      void drawScore(Graphics g)
@@ -203,8 +217,13 @@ public class SnakePanel extends JPanel implements ActionListener {
         {
             int x = xValues.get(i);
             int y = yValues.get(i);
-            g.setColor(snakeColor);
-            g.fillRect(x, y, UNIT_SIZE, UNIT_SIZE);
+
+            if(i == xValues.size()-1)
+            g.drawImage(snake_head, x, y, UNIT_SIZE, UNIT_SIZE, this);
+            else if(i == 0)
+            g.drawImage(snake_tail, x, y, UNIT_SIZE, UNIT_SIZE, this);
+            else
+            g.drawImage(snake_body, x, y, UNIT_SIZE, UNIT_SIZE, this);
         }
     }
     
