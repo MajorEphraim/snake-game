@@ -44,8 +44,13 @@ public class SnakePanel extends JPanel implements ActionListener {
     
     int foodX;
     int foodY;
-    int snakeX = GAME_WIDTH/2;
-    int snakeY = GAME_HEIGHT/2;
+    
+    int centerCol = (GRID_WIDTH / UNIT_SIZE) / 2;
+    int centerRow = (GRID_HEIGHT / UNIT_SIZE) / 2;
+    
+    int snakeX = gridX + centerCol * UNIT_SIZE;
+    int snakeY = gridY + centerRow * UNIT_SIZE;
+    
     int changeX = UNIT_SIZE;
     int changeY = 0;
     
@@ -59,6 +64,7 @@ public class SnakePanel extends JPanel implements ActionListener {
 
     Random random;
     Timer timer;
+    
     public SnakePanel()
     {
         random = new Random();
@@ -77,8 +83,8 @@ public class SnakePanel extends JPanel implements ActionListener {
         isOver = false;
         changeY =0;
         changeX = 0;
-        snakeX = GAME_WIDTH/2;
-        snakeY = GAME_HEIGHT/2;
+        snakeX = gridX + (GRID_WIDTH / 2 / UNIT_SIZE) * UNIT_SIZE;
+        snakeY = gridY + (GRID_HEIGHT / 2 / UNIT_SIZE) * UNIT_SIZE;
         xValues.clear();
         yValues.clear();
         xValues.add(snakeX);
@@ -103,8 +109,8 @@ public class SnakePanel extends JPanel implements ActionListener {
         {
             valid = true;
     
-            foodX = random.nextInt(GAME_WIDTH / UNIT_SIZE) * UNIT_SIZE;
-            foodY = random.nextInt(GAME_HEIGHT / UNIT_SIZE) * UNIT_SIZE;
+            foodX = gridX + random.nextInt(GRID_WIDTH / UNIT_SIZE) * UNIT_SIZE;
+            foodY = gridY + random.nextInt(GRID_HEIGHT / UNIT_SIZE) * UNIT_SIZE;
     
             for(int i = 0; i < xValues.size(); i++)
             {
