@@ -13,7 +13,7 @@ public class SnakeFrame extends JFrame
     public SnakeFrame()
     {
       this.add(new SnakePanel());
-      this.setTitle("Snake Game by Edureka");
+      this.setTitle("Snake Game by Ephraim Ncube");
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       this.setResizable(false);
       this.pack();
